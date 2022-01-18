@@ -1,43 +1,51 @@
 import React,{Component} from 'react';
-import {StyleSheet,SafeAreaView,Text} from 'react-native';
+import {StyleSheet,SafeAreaView,Text, View} from 'react-native'
 import params from './params'
-import Field from './components/Field'
+import MineField from './components/MineField'
+import { createMinedBoard } from './functions'
+
 export default class App extends Component{
+  
+  constructor(props){
+    super(props)
+    this.state=this.createState()
+  }
+
+  minesAmount=()=>{
+    const columns = params.getColumnsAmount()
+    const rows = params.getRowsAmount()
+    return Math.ceil(columns*rows*params.difficultLevel)
+  }
+
+  createState = () => {
+    const columns = params.getColumnsAmount()
+    const rows = params.getRowsAmount()
+    return {
+      board:createMinedBoard(rows,columns,this.minesAmount)
+    }
+  }
+
   render (){
     return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
       <Text style={styles.instructions}>Tamanho da grade:
         {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
-        <Field/>
-        <Field opened/>
-        <Field opened nearMines={1}/>
-        <Field opened nearMines={2}/>
-        <Field opened nearMines={3}/>
-        <Field opened nearMines={6}/>
-        <Field mined/>
-        <Field mined opened/>
-        <Field mined opened exploded/>
-        <Field flagged/>
-        <Field flagged opened/>
-        <Field flagged bigger/>
+      <View style={styles.board}>
+        <MineField board={this.state.board}></MineField>
+      </View>
     </SafeAreaView>
-    );
-        }
-};
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
    flex:1,
-   justifyContent: 'center',
-   alignItems: 'center',
-   backgroundColor:'#F5FCFF'
+   justifyContent: 'flex-end'
   },
-  welcome:{
-    fontSize:20,
-    textAlign:'center',
-    marginTop:10
+  board:{
+    alignItems:'center',
+    backgroundColor:'#AAA'
   },
-  instructions: {
-
-  }
-});
+})
