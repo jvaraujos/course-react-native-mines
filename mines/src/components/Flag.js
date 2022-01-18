@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         marginLeft:7,
         marginRight:10,
     },
-    base2:{
+    base2: {
         position:'absolute',
         height:2,
         widh:10,
