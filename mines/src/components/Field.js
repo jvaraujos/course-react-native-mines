@@ -21,7 +21,8 @@ export default props => {
 
 
     return (
-        <TouchableNativeFeedback onPress={props.onOpen}>
+        <TouchableNativeFeedback onPress={props.onOpen}
+        onLongPress={props.onSelect}>
         <View style={styleField}>
             {!mined&&opened&&nearMines>0?
             <Text style={[styles.label,{color:color}]}>
