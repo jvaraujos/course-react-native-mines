@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {StyleSheet,SafeAreaView,Text, View,Alert} from 'react-native'
+import {StyleSheet,SafeAreaView, View,Alert} from 'react-native'
 import params from './params'
 import MineField from './components/MineField'
 import Header from './components/Header'
