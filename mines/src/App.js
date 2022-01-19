@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {StyleSheet,SafeAreaView,Text, View,Alert} from 'react-native'
 import params from './params'
 import MineField from './components/MineField'
+import Header from './components/Header'
 import { 
   createMinedBoard,
   cloneBoard,
@@ -9,7 +10,8 @@ import {
   hadExplosion,
   wonGame,
   showMines,
-  invertFlag
+  invertFlag,
+  flagUsed
  } from './functions'
 
 export default class App extends Component{
@@ -50,7 +52,7 @@ export default class App extends Component{
     }
     this.setState({board,lost,won})
   }
-
+  
   onSelectField = (row, column) => {
     const board = cloneBoard(this.state.board)
     invertFlag(board,row,column)
@@ -60,12 +62,12 @@ export default class App extends Component{
     }
     this.setState({board,won})
   }
+
   render (){
     return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
-      <Text style={styles.instructions}>Tamanho da grade:
-        {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
+     <Header flagsLeft={this.minesAmount()-flagUsed(this.state.board)}
+     onNewGame={()=> this.setState(this.createState())}/>
       <View style={styles.board}>
         <MineField board={this.state.board}
         onOpenField={this.onOpenField}
