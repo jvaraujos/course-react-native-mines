@@ -3,6 +3,7 @@ import {StyleSheet,SafeAreaView,Text, View,Alert} from 'react-native'
 import params from './params'
 import MineField from './components/MineField'
 import Header from './components/Header'
+import LevelSelection from './screens/LevelSelection';
 import { 
   createMinedBoard,
   cloneBoard,
@@ -33,10 +34,15 @@ export default class App extends Component{
     return {
       board:createMinedBoard(rows,cols,this.minesAmount()),
       won:false,
-      lost:false
+      lost:false,
+      showLevelSelection:false,
     }
   }
 
+  onLevelSelected = (level) => {
+    params.difficultLevel=level
+    this.setState(this.createState())
+  }
   onOpenField = (row,column)=>{
     const board = cloneBoard(this.state.board)
     openField(board,row,column)
@@ -66,8 +72,12 @@ export default class App extends Component{
   render (){
     return (
     <SafeAreaView style={styles.container}>
+      <LevelSelection isVisible={this.state.showLevelSelection}
+      onLevelSelected={this.onLevelSelected}
+      onCancel={()=>this.setState({showLevelSelection:false})}/>
      <Header flagsLeft={this.minesAmount()-flagUsed(this.state.board)}
-     onNewGame={()=> this.setState(this.createState())}/>
+     onNewGame={()=> this.setState(this.createState())}
+     onFlagPress={()=>this.setState({showLevelSelection:true})}/>
       <View style={styles.board}>
         <MineField board={this.state.board}
         onOpenField={this.onOpenField}
