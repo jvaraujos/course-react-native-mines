@@ -19,10 +19,11 @@ const spreadMines = (board,minesAmount)=>{
     const rows = board.length
     const columns = board[0].length
     let minesPlanted = 0
+
     while(minesPlanted<minesAmount){
         const rowSel = parseInt(math.random() * rows ,10)
         const columnSel= parseInt(math.random() * columns ,10)
-        if(!board[rowSel][columSel].mined){
+        if(!board[rowSel][columnSel].mined){
             board[rowSel][columnSel].mined=true
             minesPlanted++
         }
@@ -35,24 +36,24 @@ const createMinedBoard = (rows,columns,minesAmount)=>{
     return board
 }
 
-const cloneBoard = board=>{
-    return board.map(rows=>{
-        return rows.map(field=>{
-            return {...field}
+const cloneBoard = board => {
+    return board.map(rows => {
+        return rows.map(field => {
+            return { ...field }
         })
     })
 }
 
-const getNeighbors = (board,row,column)=>{
+const getNeighbors = (board, row, column) => {
     const neighbors=[]
-    const rows = [row-1,row,row+1]
-    const columns = [column-1,column,column+1]
+    const rows = [row-1, row, row+1]
+    const columns = [column-1, column, column+1]
     rows.forEach(r=>{
         columns.forEach(c=>{
             const diferent = r !== row || c!== column
-            const validRow = r =>0 && r < board.length
+            const validRow = r => 0 && r < board.length
             const validColumn = c >= 0 && c < board[0].length
-            if(diferent&& validRow&&validColumn){
+            if(diferent&& validRow&& validColumn){
                 neighbors.push(board[r][c])
             }
         })
@@ -62,7 +63,7 @@ const getNeighbors = (board,row,column)=>{
 
 const safeNeighborhood = (board,row,column)=>{
     const safes =(result,neighbors) => result&& !neighbors.mined
-    return getNeighbors(board,row,colum).reduce(safes,true)
+    return getNeighbors(board,row,column).reduce(safes,true)
 }
 
 const openField= (board,row,column)=>{
@@ -84,11 +85,11 @@ const openField= (board,row,column)=>{
 const fields = board=> [].concat(...board)
 const hadExplosion = board=> fields(board)
     .filter(field=>field.exploded).length > 0
-const pendding = field =>(field.mined&&!field.flagged)||
-    (!field.mined&& !field.opened)
-const wonGame = board => fields(board).filter(pedding).length ===0
-const showMines = board => fields(boards).filter(field=>field.mined)
-    .forEach(field=>field.opened=true)
+const pendding = field => (field.mined &&! field.flagged)
+    ||(!field.mined && !field.opened)
+const wonGame = board => fields(board).filter(pendding).length === 0
+const showMines = board => fields(board).filter(field=>field.mined)
+    .forEach(field=>field.opened = true)
 
 export {
     createMinedBoard,
